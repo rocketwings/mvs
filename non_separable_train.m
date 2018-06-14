@@ -4,7 +4,8 @@ if nargin < 2
     X = [[0 0]', [1 1]', [1 0]'];   %data
     Y = [-1 1 1]; %labels
     C = 1;
-elseif nargin < 3
+end
+if nargin < 3
     C = 1;
 else
     X = data;
