@@ -41,6 +41,8 @@ subplot(2,1,2)
 histogram(X(2,:))
 
 r1 = non_separable_train(X,Y);
+err_xi = sum(r1.xi > 1);
+Y_hat = 
 
 %% create separable
 
@@ -85,4 +87,7 @@ title('X s');
 subplot(2,1,2)
 histogram(X_sep(2,:))
 
-r2 = non_separable_train(X_sep,Y_sep);
+r2 = separable_train(X_sep,Y_sep);
+Y_sep_hat = separable_test(X_sep,r2.w,r2.b);
+error_sep = sum(Y_sep - Y_sep_hat);
+
