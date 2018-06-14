@@ -2,7 +2,7 @@ clear all
 close all
 
 d = 2;
-l =1000;
+l = 1000;
 
 mu1 = zeros(d,1);
 mu1(1,1) = 2;
@@ -18,27 +18,36 @@ X2_non_sep = repmat(mu2,1,l/2) + chol(cov2)*randn(d,l/2);
 X_non_sep = [X1_non_sep,X2_non_sep];
 Y_non_sep = [Y1_non_sep,Y2_non_sep];
 
+%% plots 
+
+figure(1)
+plot(X1_non_sep(1,:),X1_non_sep(2,:),'+');
+hold on 
+plot(X2_non_sep(1,:),X2_non_sep(2,:), 'o');
+title('non sep');
+
+
 %% histograms
-figure
-subplot(2,1,1)
-histogram(X1_non_sep(1,:))
-title('X1_non_sep');
-subplot(2,1,2)
-histogram(X1_non_sep(2,:))
-
-figure
-subplot(2,1,1)
-histogram(X2_non_sep(1,:))
-title('X2_non_sep');
-subplot(2,1,2)
-histogram(X2_non_sep(2,:))
-
-figure
-subplot(2,1,1)
-histogram(X_non_sep(1,:))
-title('X_non_sep');
-subplot(2,1,2)
-histogram(X_non_sep(2,:))
+% figure
+% subplot(2,1,1)
+% histogram(X1_non_sep(1,:))
+% title('X1_non_sep');
+% subplot(2,1,2)
+% histogram(X1_non_sep(2,:))
+% 
+% figure
+% subplot(2,1,1)
+% histogram(X2_non_sep(1,:))
+% title('X2_non_sep');
+% subplot(2,1,2)
+% histogram(X2_non_sep(2,:))
+% 
+% figure
+% subplot(2,1,1)
+% histogram(X_non_sep(1,:))
+% title('X_non_sep');
+% subplot(2,1,2)
+% histogram(X_non_sep(2,:))
 
 %% test 
 r1 = non_separable_train(X_non_sep,Y_non_sep);
@@ -66,28 +75,35 @@ X2_sep = X2_non_sep(:,d2 == 1);
 Y2_sep = -1*ones(1,size(X2_sep,2));
 X_sep = [X1_sep,X2_sep];
 Y_sep = [Y1_sep,Y2_sep];
+%% plot 
+figure(2)
+plot(X1_sep(1,:),X1_sep(2,:),'+');
+hold on 
+plot(X2_sep(1,:),X2_sep(2,:), 'o');
+title('non sep');
+
 
 %% histograms
-figure
-subplot(2,1,1)
-histogram(X1_sep(1,:))
-title('X1 s');
-subplot(2,1,2)
-histogram(X1_sep(2,:))
-
-figure
-subplot(2,1,1)
-histogram(X2_sep(1,:))
-title('X2 s');
-subplot(2,1,2)
-histogram(X2_sep(2,:))
-
-figure
-subplot(2,1,1)
-histogram(X_sep(1,:))
-title('X s');
-subplot(2,1,2)
-histogram(X_sep(2,:))
+% figure
+% subplot(2,1,1)
+% histogram(X1_sep(1,:))
+% title('X1 s');
+% subplot(2,1,2)
+% histogram(X1_sep(2,:))
+% 
+% figure
+% subplot(2,1,1)
+% histogram(X2_sep(1,:))
+% title('X2 s');
+% subplot(2,1,2)
+% histogram(X2_sep(2,:))
+% 
+% figure
+% subplot(2,1,1)
+% histogram(X_sep(1,:))
+% title('X s');
+% subplot(2,1,2)
+% histogram(X_sep(2,:))
 
 %% test 
 r2 = separable_train(X_sep,Y_sep);
