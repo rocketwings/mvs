@@ -5,52 +5,54 @@ d = 2;
 l =1000;
 
 mu1 = zeros(d,1);
-mu1(1,1) = 1;
+mu1(1,1) = 2;
 cov1 = diag([1,1]);
 mu2 = zeros(d,1);
-mu2(end,1) = 1;
+mu2(end,1) = 2;
 cov2 = diag([1,1]);
 
-Y1 = 1*ones(1,l/2);
-Y2 = -1*ones(1,l/2);
-X1 = repmat(mu1,1,l/2) + chol(cov1)*randn(d,l/2);
-X2 = repmat(mu2,1,l/2) + chol(cov2)*randn(d,l/2);
-X = [X1,X2];
-Y = [Y1,Y2];
+Y1_non_sep = 1*ones(1,l/2);
+Y2_non_sep = -1*ones(1,l/2);
+X1_non_sep = repmat(mu1,1,l/2) + chol(cov1)*randn(d,l/2);
+X2_non_sep = repmat(mu2,1,l/2) + chol(cov2)*randn(d,l/2);
+X_non_sep = [X1_non_sep,X2_non_sep];
+Y_non_sep = [Y1_non_sep,Y2_non_sep];
 
-%% 
+%% histograms
 figure
 subplot(2,1,1)
-histogram(X1(1,:))
-title('X1');
+histogram(X1_non_sep(1,:))
+title('X1_non_sep');
 subplot(2,1,2)
-histogram(X1(2,:))
-
-figure
-subplot(2,1,1)
-histogram(X2(1,:))
-title('X2');
-subplot(2,1,2)
-histogram(X2(2,:))
+histogram(X1_non_sep(2,:))
 
 figure
 subplot(2,1,1)
-histogram(X(1,:))
-title('X');
+histogram(X2_non_sep(1,:))
+title('X2_non_sep');
 subplot(2,1,2)
-histogram(X(2,:))
+histogram(X2_non_sep(2,:))
 
-r1 = non_separable_train(X,Y);
-err_xi = sum(r1.xi > 1);
-Y_hat = 
+figure
+subplot(2,1,1)
+histogram(X_non_sep(1,:))
+title('X_non_sep');
+subplot(2,1,2)
+histogram(X_non_sep(2,:))
+
+%% test 
+r1 = non_separable_train(X_non_sep,Y_non_sep);
+err_xi_non_sep = sum(r1.xi > 1);
+Y_hat_non_sep = mvs(X_non_sep,r1.w,r1.b);
+err_non_sep = sum(Y_hat_non_sep ~= Y_non_sep);
 
 %% create separable
 
-d1_1 = diag((X1-mu1)'*(cov1\(X1-mu1))); %mahal from point of 1 to mu 1  
-d1_2 = diag((X1-mu2)'*(cov2\(X1-mu2))); %mahal from point of 1 to mu 2 
+d1_1 = diag((X1_non_sep-mu1)'*(cov1\(X1_non_sep-mu1))); %mahal from point of 1 to mu 1  
+d1_2 = diag((X1_non_sep-mu2)'*(cov2\(X1_non_sep-mu2))); %mahal from point of 1 to mu 2 
 
-d2_1 = diag((X2-mu1)'*(cov1\(X2-mu1))); %mahal from point of 1 to mu 1  
-d2_2 = diag((X2-mu2)'*(cov2\(X2-mu2))); %mahal from point of 1 to mu 2 
+d2_1 = diag((X2_non_sep-mu1)'*(cov1\(X2_non_sep-mu1))); %mahal from point of 1 to mu 1  
+d2_2 = diag((X2_non_sep-mu2)'*(cov2\(X2_non_sep-mu2))); %mahal from point of 1 to mu 2 
 
 d1 = ones(l/2,1);
 d2 = ones(l/2,1);
@@ -58,14 +60,14 @@ d2 = ones(l/2,1);
 d1(d1_1>d1_2) = 0;
 d2(d2_2>d2_1) = 0;
 
-X1_sep = X1(:,d1 == 1);
+X1_sep = X1_non_sep(:,d1 == 1);
 Y1_sep = 1*ones(1,size(X1_sep,2));
-X2_sep = X2(:,d2 == 1);
+X2_sep = X2_non_sep(:,d2 == 1);
 Y2_sep = -1*ones(1,size(X2_sep,2));
 X_sep = [X1_sep,X2_sep];
 Y_sep = [Y1_sep,Y2_sep];
 
-%% 
+%% histograms
 figure
 subplot(2,1,1)
 histogram(X1_sep(1,:))
@@ -87,7 +89,8 @@ title('X s');
 subplot(2,1,2)
 histogram(X_sep(2,:))
 
+%% test 
 r2 = separable_train(X_sep,Y_sep);
-Y_sep_hat = separable_test(X_sep,r2.w,r2.b);
-error_sep = sum(Y_sep - Y_sep_hat);
+Y_sep_hat = mvs(X_sep,r2.w,r2.b);
+error_sep = sum(Y_sep ~= Y_sep_hat);
 
