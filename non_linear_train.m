@@ -1,20 +1,26 @@
-% function [ output_args ] = non_linear_train( data, labels, C)
+function [ output_args ] = non_linear_train( data, labels, C)
 
-% if nargin < 2
+if nargin < 2
     X = [[0 0]', [1 1]', [1 0]'];   %data
     Y = [-1 1 1]; %labels
     C = 1;
-% elseif nargin < 3
-%     C = 1;
-% else
-%     X = data;
-%     Y = labels;
-% end
+elseif nargin < 3
+    C = 1;
+else
+    X = data;
+    Y = labels;
+end
 
 num_data = size(X,2);   %l=num_data;
 num_dim = size(X,1);    %d=num_dim;
 
 X_matrix = X' * X;
+X_matrix = zeros(num_data);
+for i = 1:num_data
+    for j = 1:num_data
+        X_matrix(i,j) = g_kernel(X(:,i),X(:,j));
+    end
+end
 Y_matrix = Y' * Y;
 XY_matrix = X_matrix .* Y_matrix;
 
@@ -26,7 +32,8 @@ variable xi(num_data);
 
 variable alph(num_data);
 
-maximize( sum(alph) - (1/2) * quad_form(alph, XY_matrix));
+% maximize( sum(alph) - (1/2) * quad_form(alph, XY_matrix));
+maximize( sum(alph) - (1/2) * alph' *  XY_matrix * alph);
 
 subject to
 %     alph : ( (Y' .* (X'*w + ones(num_data,1)*b)) - ones(num_data,1) + xi ) >= 0 ;
@@ -35,11 +42,8 @@ subject to
     sum( alph' * Y' ) == 0;
     
 cvx_end
-% 
-% output_args = struct();
-% output_args.w = w;
-% output_args.b = b;
-% output_args.xi = xi;
-% output_args.dual = alph;
 
-% end
+output_args = struct();
+output_args.dual = alph;
+
+end
