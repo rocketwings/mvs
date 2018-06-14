@@ -1,4 +1,8 @@
-clear all;
+function [ output_args ] = separable_train( data, labels )
+%UNTITLED3 Summary of this function goes here
+%   Detailed explanation goes here
+
+
 X = [[0 0]', [1 1]', [1 0]'];   %data
 Y = [-1 1 1]; %labels
 
@@ -18,7 +22,5 @@ subject to
     
 cvx_end
 
-
-
-
+end
 
