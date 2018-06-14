@@ -6,10 +6,13 @@ if nargin < 2
     C = 1;
 elseif nargin < 3
     C = 1;
-else
     X = data;
     Y = labels;
-end
+else 
+    X = data;
+    Y = labels;
+end 
+
 
 num_data = size(X,2);   %l=num_data;
 num_dim = size(X,1);    %d=num_dim;

@@ -4,9 +4,11 @@ close all
 d = 2;
 l =1000;
 
-mu1 = [1,0]';
-cov1 = diag([1,3]);
-mu2 = [0,1]';
+mu1 = zeros(d,1);
+mu1(1,1) = 2;
+cov1 = diag([1,1]);
+mu2 = zeros(d,1);
+mu2(end,1) = 2;
 cov2 = diag([1,1]);
 
 y = [-1*ones(1,l/2),1*ones(1,l/2)];
@@ -36,3 +38,10 @@ title('X');
 subplot(2,1,2)
 histogram(X(2,:))
 
+non_separable_train(X,y)
+
+%% create separable
+
+% d = zeros(l,1);
+% 
+% d1 = diag((X1-mu1)'cov1\(X1-mu1))
