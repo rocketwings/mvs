@@ -1,11 +1,14 @@
 function [ output_args ] = non_linear_train( data, labels, C)
 
 if nargin < 2
-    X = [[0 0]', [1 1]', [1 0]'];   %data
-    Y = [-1 1 1]; %labels
+    X = [[-1,-1]', [0 0]', [1 1]', [1 0]', [5,5]'];   %data
+    Y = [-1 -1 1 1 1]; %labels
     C = 1;
-elseif nargin < 3
+end
+if nargin < 3
     C = 1;
+    X = data;
+    Y = labels;
 else
     X = data;
     Y = labels;
@@ -44,6 +47,6 @@ subject to
 cvx_end
 
 output_args = struct();
-output_args.dual = alph;
+output_args.alpha = alph;
 
 end
