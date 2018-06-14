@@ -12,4 +12,4 @@ X_train = [X1_train,X2_train];
 Y_train = [Y1_train,Y2_train];
 svm = non_linear_train(X_train,Y_train);
 
-test_labels = nonlinear_test(svm.alpha,X_train,Y_train,X_train);
+test_labels = non_linear_test(svm.alpha,X_train,Y_train,X_train);

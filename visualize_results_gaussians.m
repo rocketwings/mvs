@@ -1,15 +1,14 @@
 function [fig] = visualize_results_gaussians(X,Y,Y_hat,r,X1,X2,mu1,mu2,cov1,cov2,TOL)
 
-figure
+fig = figure
 %points
-plot(X1(1,:),X1(2,:),'ob');
+plot(X1(1,:),X1(2,:),'ob');%,'LineWidth',2);
 hold on 
-plot(X2(1,:),X2(2,:),'or');
+plot(X2(1,:),X2(2,:),'or');%,'LineWidth',2);
 xlabel('x1');
 ylabel('x2');
 
 %ellipsoids
-fig = gcf;
 min_x = fig.Children.XLim(1);max_x = fig.Children.XLim(end);
 min_y = fig.Children.YLim(1);max_y = fig.Children.YLim(end);
 dx1 = .1;dx2 = dx1;
@@ -24,7 +23,7 @@ contour(range_x,range_y,mahal_2,[1 1],'r');
 
 %support vectors 
 svs = r.dual > TOL;
-plot(X(1,svs),X(2,svs),'sk','MarkerSize',12);
+plot(X(1,svs),X(2,svs),'sk','MarkerSize',12);%,'LineWidth',2);
 
 %labels
 plot(X(1,Y_hat==1),X(2,Y_hat==1),'+b');
@@ -33,7 +32,7 @@ plot(X(1,Y_hat==-1),X(2,Y_hat==-1),'xr');
 err = 0;
 if sum(Y~=Y_hat)> 0
     err = 1;
-    plot(X(1,Y~=Y_hat),X(2,Y~=Y_hat),'vg','MarkerSize',10);
+    plot(X(1,Y~=Y_hat),X(2,Y~=Y_hat),'vg');%,'MarkerSize',10);%,'LineWidth',2);
 end 
 
 %decision boundary
