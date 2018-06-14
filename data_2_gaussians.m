@@ -18,13 +18,20 @@ X2_non_sep = repmat(mu2,1,l/2) + chol(cov2)*randn(d,l/2);
 X_non_sep = [X1_non_sep,X2_non_sep];
 Y_non_sep = [Y1_non_sep,Y2_non_sep];
 
+
+%% test 
+r1 = non_separable_train(X_non_sep,Y_non_sep);
+err_xi_non_sep = sum(r1.xi > 1);
+Y_hat_non_sep = mvs(X_non_sep,r1.w,r1.b);
+err_non_sep = sum(Y_hat_non_sep ~= Y_non_sep);
+
 %% plots 
 
 figure(1)
 plot(X1_non_sep(1,:),X1_non_sep(2,:),'+');
 hold on 
 plot(X2_non_sep(1,:),X2_non_sep(2,:), 'o');
-title('non sep');
+title(['non sep, error = ' num2str(err_non_sep) '/' num2str(l)]);
 
 
 %% histograms
@@ -48,12 +55,6 @@ title('non sep');
 % title('X_non_sep');
 % subplot(2,1,2)
 % histogram(X_non_sep(2,:))
-
-%% test 
-r1 = non_separable_train(X_non_sep,Y_non_sep);
-err_xi_non_sep = sum(r1.xi > 1);
-Y_hat_non_sep = mvs(X_non_sep,r1.w,r1.b);
-err_non_sep = sum(Y_hat_non_sep ~= Y_non_sep);
 
 %% create separable
 
@@ -80,8 +81,7 @@ figure(2)
 plot(X1_sep(1,:),X1_sep(2,:),'+');
 hold on 
 plot(X2_sep(1,:),X2_sep(2,:), 'o');
-title('non sep');
-
+title(['sep, error = ' num2str(err_non_sep) '/' num2str(l)]);
 
 %% histograms
 % figure
@@ -109,4 +109,3 @@ title('non sep');
 r2 = separable_train(X_sep,Y_sep);
 Y_sep_hat = mvs(X_sep,r2.w,r2.b);
 error_sep = sum(Y_sep ~= Y_sep_hat);
-

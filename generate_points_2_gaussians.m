@@ -1,11 +1,11 @@
-function [X1,X2,Y1,Y2] = generate_points_2_gaussians(l,d,mu1,mu2,cov1,cov2)
+function [X,Y,X1,X2,Y1,Y2,Xs,Ys,X1s,X2s,Y1s,Y2s] = generate_points_2_gaussians(l,d,mu1,mu2,cov1,cov2)
 
 if nargin < 3
     mu1 = zeros(d,1);
     mu1(1,1) = 2;
     cov1 = diag([1,1]);
     mu2 = zeros(d,1);
-    mu2(end,1) = 2;
+    mu2(d,1) = 2;
     cov2 = diag([1,1]);
 end 
 
