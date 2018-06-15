@@ -25,7 +25,9 @@ variable xi(num_data);
 
 dual variable alph;
 
-minimize( norm(w) + C * sum(xi));
+minimize( w' * w + C * sum(xi) );
+% minimize( norm(w) + C * sum(xi) );
+
 
 subject to
     alph : ( (Y' .* (X'*w + ones(num_data,1)*b)) - ones(num_data,1) + xi ) >= 0 ;
