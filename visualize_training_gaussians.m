@@ -1,6 +1,6 @@
-function [fig] = visualize_results_gaussians(X,Y,Y_hat,r,X1,X2,mu1,mu2,cov1,cov2,TOL)
+function [fig] = visualize_training_gaussians(X,Y,Y_hat,r,X1,X2,mu1,mu2,cov1,cov2,TOL)
 
-fig = figure
+fig = figure;
 %points
 plot(X1(1,:),X1(2,:),'ob');%,'LineWidth',2);
 hold on 
@@ -29,16 +29,15 @@ plot(X(1,svs),X(2,svs),'sk','MarkerSize',12);%,'LineWidth',2);
 plot(X(1,Y_hat==1),X(2,Y_hat==1),'+b');
 plot(X(1,Y_hat==-1),X(2,Y_hat==-1),'xr');
 
-err = 0;
-if sum(Y~=Y_hat)> 0
-    err = 1;
+err = sum(Y~=Y_hat);
+if err > 0
     plot(X(1,Y~=Y_hat),X(2,Y~=Y_hat),'vg');%,'MarkerSize',10);%,'LineWidth',2);
 end 
 
 %decision boundary
 if isnan(r.b)
     title('Infeasible');
-    if err == 1
+    if err > 0
         legend('x1','x2','sd1','sd2','support vects','label x1','label x2','label error');
     else
         legend('x1','x2','sd1','sd2','support vects','label x1','label x2');
@@ -51,6 +50,7 @@ else
     else
         legend('x1','x2','sd1','sd2','support vects','label x1','label x2','decision boundary');
     end 
+    title(['Train: err= ' num2str(err) '/' num2str(size(X,2))]);
 end
 %margin
 %to do maybe 
