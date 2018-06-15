@@ -5,8 +5,8 @@ fig = figure;
 plot(X1(1,:),X1(2,:),'ob');%,'LineWidth',2);
 hold on 
 plot(X2(1,:),X2(2,:),'or');%,'LineWidth',2);
-xlabel('x1');
-ylabel('x2');
+xlabel('x');
+ylabel('y');
 
 %ellipsoids
 min_x = fig.Children.XLim(1);max_x = fig.Children.XLim(end);
