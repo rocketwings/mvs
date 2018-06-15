@@ -4,8 +4,7 @@ if nargin < 2
     X = [[-1,-1]', [0 0]', [1 1]', [1 0]', [5,5]'];   %data
     Y = [-1 -1 1 1 1]; %labels
     C = 1;
-end
-if nargin < 3
+elseif nargin < 3
     C = 1;
     X = data;
     Y = labels;
@@ -42,7 +41,7 @@ subject to
 %     alph : ( (Y' .* (X'*w + ones(num_data,1)*b)) - ones(num_data,1) + xi ) >= 0 ;
     alph >= 0;
     alph <= C;
-    sum( alph' * Y' ) == 0;
+    alph' * Y' == 0;
     
 cvx_end
 
